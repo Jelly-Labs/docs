@@ -1,16 +1,13 @@
 import {Buffer} from "buffer";
 
 const getRandomBytes = (n: number) => {
-    if (typeof self !== "undefined" && self.crypto) {
-        const crypto = self.crypto,
-            QUOTA = 65536;
+    const QUOTA = 65536;
 
-        const a = new Uint8Array(n);
-        for (let i = 0; i < n; i += QUOTA) {
-            crypto.getRandomValues(a.subarray(i, i + Math.min(n - i, QUOTA)));
-        }
-        return a as Buffer;
+    const a = new Uint8Array(n);
+    for (let i = 0; i < n; i += QUOTA) {
+        crypto.getRandomValues(a.subarray(i, i + Math.min(n - i, QUOTA)));
     }
+    return a as Buffer;
 };
 
 /**

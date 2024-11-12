@@ -1,10 +1,10 @@
-import FormData from 'form-data';
+import FormData from "form-data";
 import axios from "axios";
 
 const removeToken = async () => {
 // Create headers
     const headers = {
-        "accessKey": "{ACCESS_KEY}",
+        "accessKey": process.env.API_ACCESS_KEY,
     }
 
 // Create form data

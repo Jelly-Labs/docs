@@ -1,4 +1,4 @@
-import {AbiCoder, ethers} from "ethers";
+import {AbiCoder, Contract, ZeroAddress} from "ethers";
 import abi from "./abis/vault.json";
 
 enum PoolJoinKind {
@@ -10,15 +10,15 @@ enum PoolJoinKind {
 }
 
 const getNative = (assets: string[], maxAmountsIn: string[]): false | { value: string } => {
-    const nativeTokenIndex = assets.findIndex((token) => token === ethers.ZeroAddress);
+    const nativeTokenIndex = assets.findIndex((token) => token === ZeroAddress);
 
     return nativeTokenIndex !== -1 ? {value: maxAmountsIn[nativeTokenIndex]} : false;
 };
 
-const joinPool = async (signer: any, poolId: string, userAddress: `0x${string}`, assets: string[], maxAmountsIn: string[], joinKind: PoolJoinKind = PoolJoinKind.INIT): Promise<string> => {
-    const vaultContractAddress = "0xFB43069f6d0473B85686a85F4Ce4Fc1FD8F00875";
+const joinPool = async (signer: any, poolId: string, userAddress: `0x${string}` | string, assets: string[], maxAmountsIn: string[], joinKind: PoolJoinKind = PoolJoinKind.INIT): Promise<string> => {
+    const contractAddress = process.env.CONTRACT_VAULT as string;
 
-    const vaultContract = new ethers.Contract(vaultContractAddress, abi, signer);
+    const vaultContract = new Contract(contractAddress, abi, signer);
 
     let joinPool;
 
