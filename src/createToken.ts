@@ -5,6 +5,11 @@ import axios from "axios";
 const createToken = async () => {
     const iconFile = fs.createReadStream('/path/to/token-icon.svg');
 
+// Create headers
+    const headers = {
+        "accessKey": "{ACCESS_KEY}",
+    }
+
 // Create form data
     const data = new FormData();
     data.append("name", "JellyToken Sample");
@@ -19,9 +24,7 @@ const createToken = async () => {
         url: "https://api-dev.jellyverse.org/api/add/token",
         method: "POST",
         data,
-        headers: {
-            "accessKey": "{ACCESS_KEY}",
-        }
+        headers,
     });
 
     console.log(response.data)
