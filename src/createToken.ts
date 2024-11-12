@@ -3,7 +3,7 @@ import FormData from "form-data";
 import axios from "axios";
 
 const createToken = async () => {
-    const iconFile = fs.createReadStream("/path/to/token-icon.svg"); // Add path to token icon
+    const iconFile = fs.createReadStream("/path/to/token-icon.svg"); // Add a path to token icon
 
     const headers = {
         "accessKey": process.env.API_ACCESS_KEY,
@@ -18,7 +18,7 @@ const createToken = async () => {
     // data.append("iconTable", iconTableFile); // Optional
 
     const response = await axios({
-        url: "https://api-dev.jellyverse.org/api/add/token",
+        url: `${process.env.API_URL}/api/add/token`,
         method: "POST",
         data,
         headers,

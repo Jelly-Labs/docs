@@ -1,11 +1,11 @@
 import {JsonRpcProvider, Wallet} from "ethers";
 import "dotenv/config";
+
 import createPool from "./createPool";
 import getPoolId from "./getPoolId";
 import joinPool from "./joinPool";
 import generatePoolData from "./helpers/generatePoolData";
 import addApprovals from "./addApprovals";
-
 
 const main = async () => {
     // >>>>> CHANGEABLE DATA <<<<<
@@ -32,7 +32,7 @@ const main = async () => {
 
     try {
         const privateKey = process.env.PRIVATE_KEY as string;
-        const provider = new JsonRpcProvider(process.env.URL_RPC);
+        const provider = new JsonRpcProvider(process.env.RPC_URL);
         const signer = new Wallet(privateKey, provider);
         const userAddress = await signer.getAddress();
 

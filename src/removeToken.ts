@@ -13,7 +13,7 @@ const removeToken = async () => {
 
 // Create request
     const response = await axios({
-        url: "https://api-dev.jellyverse.org/api/remove/token",
+        url: `${process.env.API_URL}/api/remove/token`,
         method: "POST",
         data,
         headers,
