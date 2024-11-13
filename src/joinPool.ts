@@ -1,35 +1,27 @@
-import {AbiCoder, Contract, ZeroAddress} from "ethers";
+import {Contract, ethers} from "ethers";
 import abi from "./abis/vault.json";
+import {contracts} from "./helpers/contracts";
+import {TokenData} from "./helpers/generatePoolCreateData";
+import generatePoolJoinData from "./helpers/generatePoolJoinData";
 
-enum PoolJoinKind {
-    INIT = 0,
-    EXACT_TOKENS_IN_FOR_BPT_OUT = 1,
-    TOKEN_IN_FOR_EXACT_BPT_OUT = 2,
-    ALL_TOKENS_IN_FOR_EXACT_BPT_OUT = 3,
-    ADD_TOKEN = 4,
-}
+const joinPool = async (signer: any, poolId: string, userAddress: `0x${string}` | string, tokensForPool: TokenData[]): Promise<string> => {
+    const vaultContract = new Contract(contracts.vault, abi, signer);
 
-const getNative = (assets: string[], maxAmountsIn: string[]): false | { value: string } => {
-    const nativeTokenIndex = assets.findIndex((token) => token === ZeroAddress);
-
-    return nativeTokenIndex !== -1 ? {value: maxAmountsIn[nativeTokenIndex]} : false;
-};
-
-const joinPool = async (signer: any, poolId: string, userAddress: `0x${string}` | string, assets: string[], maxAmountsIn: string[], joinKind: PoolJoinKind = PoolJoinKind.INIT): Promise<string> => {
-    const contractAddress = process.env.CONTRACT_VAULT as string;
-
-    const vaultContract = new Contract(contractAddress, abi, signer);
+    const {
+        joinKind,
+        maxAmountsIn,
+        assets,
+        nativeTokenValue
+    } = await generatePoolJoinData(signer, poolId, tokensForPool);
 
     let joinPool;
 
     const joinData = {
         assets,
         maxAmountsIn,
-        userData: AbiCoder.defaultAbiCoder().encode(["uint8", "uint256[]"], [joinKind, maxAmountsIn]),
+        userData: ethers.utils.defaultAbiCoder.encode(["uint8", "uint256[]"], [joinKind, maxAmountsIn]),
         fromInternalBalance: false,
     };
-
-    const nativeTokenValue = getNative(assets, maxAmountsIn);
 
     if (nativeTokenValue) {
         joinPool = await vaultContract.joinPool(poolId, userAddress, userAddress, joinData, nativeTokenValue);

@@ -1,5 +1,5 @@
-import {encodeBytes32String} from "ethers";
 import generateRandomAsciiCharacters from "./utils";
+import {encodeBytes32String} from "./ethers-v6";
 
 const generatePoolSymbol = (tokens: Array<{ symbol: string; value: number }>, prefix: string = "") => {
     const createPoolName = tokens
