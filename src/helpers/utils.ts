@@ -1,4 +1,5 @@
 import {Buffer} from "buffer";
+import {ethers, utils} from "ethers";
 
 const getRandomBytes = (n: number) => {
     const QUOTA = 65536;
@@ -51,4 +52,32 @@ const generateRandomAsciiCharacters = (length: number) => {
     return string;
 };
 
-export default generateRandomAsciiCharacters;
+const normalizeAddress = (address: string): string => {
+    if (!address || address === "") return "";
+
+    return utils.getAddress(address);
+};
+
+const sameAddress = (address1: string, address2: string): boolean => {
+    return normalizeAddress(address1) === normalizeAddress(address2);
+};
+
+const roundCryptoString = (crypto: string, decimalPlaces = 18) => {
+    const [integerPart, fractionPart] = crypto.split(".");
+    if (!fractionPart) return integerPart;
+    const fraction = fractionPart.slice(0, decimalPlaces);
+    return `${integerPart}.${fraction}`;
+};
+
+const ethToWei = (amount: string, decimals: number): string => {
+    if (amount === "") throw new Error("Invalid eth value");
+
+    return ethers.utils.parseUnits(roundCryptoString(amount, decimals), decimals).toString();
+};
+
+export {
+    generateRandomAsciiCharacters,
+    sameAddress,
+    normalizeAddress,
+    ethToWei
+};

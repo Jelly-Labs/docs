@@ -3,24 +3,7 @@ import {utils, constants} from "ethers";
 import map from "lodash.map";
 import sortBy from "lodash.sortby";
 import {contracts} from "./contracts";
-
-type PoolCreateContract = {
-    poolSymbol: string;
-    tokens: string[];
-    normalizedWeights: string[];
-    maxAmountsIn: string[];
-    rateProviders: string[];
-    swapFeePercentage: string;
-    salt: string;
-};
-
-export type TokenData = {
-    tokenSymbol: string;
-    address: `0x${string}` | string;
-    amount: number;
-    weight: number;
-    decimals: number;
-}
+import {PoolCreateContract, TokenData} from "./types";
 
 const prepareTokenData = (tokenData: TokenData[]) => {
     const data: Array<any> = tokenData.map((item) => {
@@ -51,7 +34,7 @@ const generatePoolCreateData = (tokensForPool: TokenData[], fee: number): PoolCr
 
     const poolSymbol = generatePoolSymbol(tokensForPool.map(item => {
         return {
-            symbol: item.tokenSymbol,
+            symbol: item.symbol,
             value: item.weight
         }
     }));

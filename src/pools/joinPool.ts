@@ -1,8 +1,9 @@
 import {Contract, ethers} from "ethers";
-import abi from "./abis/vault.json";
-import {contracts} from "./helpers/contracts";
-import {TokenData} from "./helpers/generatePoolCreateData";
-import generatePoolJoinData from "./helpers/generatePoolJoinData";
+
+import abi from "../abis/vault.json";
+import {contracts} from "../helpers/contracts";
+import {generatePoolJoinData} from "../helpers/generatePoolJoinData";
+import {TokenData} from "../helpers/types";
 
 const joinPool = async (signer: any, poolId: string, userAddress: `0x${string}` | string, tokensForPool: TokenData[]): Promise<string> => {
     const vaultContract = new Contract(contracts.vault, abi, signer);

@@ -1,15 +1,8 @@
-import {TokenData} from "./generatePoolCreateData";
 import {constants, Contract, utils} from "ethers";
 import {contracts} from "./contracts";
-import abi from '../abis/vault.json';
 
-enum PoolJoinKind {
-    INIT = 0,
-    EXACT_TOKENS_IN_FOR_BPT_OUT = 1,
-    TOKEN_IN_FOR_EXACT_BPT_OUT = 2,
-    ALL_TOKENS_IN_FOR_EXACT_BPT_OUT = 3,
-    ADD_TOKEN = 4,
-}
+import abi from '../abis/vault.json';
+import {PoolJoinKind, TokenData} from "./types";
 
 const generatePoolJoinData = async (signer: any, poolId: string, tokensForPool: TokenData[]) => {
     const joinKind: PoolJoinKind = PoolJoinKind.INIT;
@@ -17,8 +10,7 @@ const generatePoolJoinData = async (signer: any, poolId: string, tokensForPool: 
     const tokens = tokensForPool.map(item => item.address);
     const amountsIn = tokensForPool.map(item => utils.parseUnits(String(item.amount), item.decimals).toString());
 
-
-    const {assets, maxAmountsIn, nativeTokenValue} = await get({
+    const {assets, maxAmountsIn, nativeTokenValue} = await getAllAssets({
         signer,
         poolId,
         assets: tokens,
@@ -30,7 +22,7 @@ const generatePoolJoinData = async (signer: any, poolId: string, tokensForPool: 
     }
 }
 
-const get = async ({signer, poolId, maxAmountsIn, assets}: any) => {
+const getAllAssets = async ({signer, poolId, maxAmountsIn, assets}: any) => {
     const scAssets = await getScAssets(signer, poolId);
     const nativeTokenValue = getNative(assets, maxAmountsIn);
 
@@ -80,5 +72,7 @@ const getNative = (assets: Array<string>, maxAmountsIn: Array<string>) => {
     return nativeTokenIndex !== -1 ? {value: maxAmountsIn[nativeTokenIndex]} : false;
 };
 
-
-export default generatePoolJoinData;
+export {
+    getAllAssets,
+    generatePoolJoinData
+};

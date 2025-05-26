@@ -1,14 +1,14 @@
-import {Contract, ethers} from "ethers";
-import abi from "./abis/erc20.json";
-import {TokenData} from "./helpers/generatePoolCreateData";
-import {contracts} from "./helpers/contracts";
+import {Contract, ethers, Wallet} from "ethers";
 
-const addApprovals = async (signer: any, tokenData: TokenData[]) => {
+import abi from "../abis/erc20.json";
+import {contracts} from "../helpers/contracts";
+import {TokenData} from "../helpers/types";
+
+const addApprovals = async (signer: Wallet, tokenData: TokenData[]) => {
     const preparedTokenData = tokenData.filter(item => item.address !== ethers.constants.AddressZero);
 
     const assets = preparedTokenData.map(item => item.address);
     const maxAmountsIn = preparedTokenData.map(item => ethers.utils.parseUnits(String(item.amount), item.decimals).toString());
-
 
     for (let index = 0; index < assets.length; index++) {
         const asset = assets[index];

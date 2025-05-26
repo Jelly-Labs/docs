@@ -2,10 +2,14 @@
   "name": "docs",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "type": "module",
+  "main": "dist/index.js",
+  "type": "commonjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "create": "ts-node src/create.ts",
+    "join": "ts-node src/join.ts",
+    "exit": "ts-node src/exit.ts"
   },
   "keywords": [],
   "author": "@npanajotov | Jellyverse",
@@ -20,8 +24,12 @@
     "form-data": "^4.0.1",
     "lodash.map": "^4.6.0",
     "lodash.sortby": "^4.7.0",
+    "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
     "typescript": "^5.6.2",
     "viem": "^2.21.45"
+  },
+  "dependencies": {
+    "decimal.js": "^10.5.0"
   }
 }
