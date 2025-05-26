@@ -12,14 +12,14 @@ smart contract. It uses the ethers library for contract interactions.
 ```javascript
 const tokensForPool = [
     {
-        tokenSymbol: "JLY",
+        symbol: "JLY",
         address: "0x1234...5678",
         amount: 150,
         weight: 50,
         decimals: 18
     },
     {
-        tokenSymbol: "SEI",
+        symbol: "SEI",
         address: ethers.constants.AddressZero,
         amount: 50,
         weight: 50,

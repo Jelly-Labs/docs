@@ -4,7 +4,7 @@ import {contracts} from "./helpers/contracts";
 import {getPool} from "./api/pools";
 import {PoolApi, PoolCategory, TokenData} from "./helpers/types";
 import GyroECLPPoolAbi from "./abis/gyroEclp.json";
-import {addApprovals, joinPool} from "./pools";
+import {addApprovals} from "./pools";
 import {buildJoinData} from "./helpers/generatePoolJoinDataForJoin";
 import joinPoolPlain from "./pools/joinPoolPlain";
 
